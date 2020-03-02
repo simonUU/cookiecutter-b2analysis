@@ -21,3 +21,9 @@ Project Organization
     │   └── figures
     └── reconstruction
    
+
+Analysis Automatization
+-----------------------
+
+We use `Snakemake` for an automated analysis workflow.
+
