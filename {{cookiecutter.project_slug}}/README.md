@@ -13,7 +13,7 @@ Project Organization
     ├── Snakefile
     ├── setup_basf2.sh
     ├── env
-    ├── config
+    ├── scripts
     ├── data
     │   └── example_mc
     ├── notebooks
