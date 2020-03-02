@@ -1,0 +1,65 @@
+# Example workflow with snakemake to process data and combine files
+#
+# Author:  Simon (simon.wehle@desy.de)
+#
+#
+
+#
+# Define your datasets here, has to contain a `*` wildcard
+#
+DATASETS = { 
+	'sig' : 'data/example_mc/*.root',
+#	'uubar' : 'data/mc12/*_uubar.root',
+#	'ddbar' : 'data/mc12/*_ddbar.root',
+#	'mixed' : 'data/mc12/*_mixed.root',
+#	'charged' : 'data/mc12/*_charged.root',
+}
+
+#
+# Output location
+#
+OUTPUT = 'data/ntuples'
+
+#
+# Version name for the processed files
+#
+VERSION = 'alpha'
+
+###
+###
+###
+
+from glob import glob
+
+
+def get_indexes(wildcards):
+	""" defines the nameing and relation to the * in the categories
+	"""
+	path = DATASETS[wildcards.cat]
+	pre = path.split('*')[0]
+	pos = path.split('*')[1]
+	files = glob(path)
+	names = [f.split(pre)[1].split(pos)[0] for f in files]
+	# print("get_indexes", wildcards.cat, names)
+	return names
+
+rule process_file:
+	""" Run the reconstruction scripts, change the python executeble
+	"""
+	input: lambda wildcards: DATASETS[wildcards.cat].replace('*','{index}')
+	output: OUTPUT+'/'+VERSION+'_{index}_{cat}.root'
+	shell:	
+		"basf2 reconstruction/alpha.py -i {input} -o {output}"
+
+rule combine_files:	
+	""" Combine multiple processed files, example agg.py file used 
+	"""
+	input: lambda wildcards: expand(OUTPUT+'/'+VERSION+'_{ifile}_{cat}.root', cat=wildcards.cat, ifile=get_indexes(wildcards))
+	output: OUTPUT+'/'+VERSION+'_combined_{cat}.root'
+	shell: 	"python3 scripts/agg.py {output} {input}"
+
+rule agg_all:
+	""" Define all final datasets
+	"""
+	input: 	expand(OUTPUT+'/'+VERSION+'_combined_{cat}.root', cat=DATASETS)
+

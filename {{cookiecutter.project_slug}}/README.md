@@ -10,20 +10,14 @@ Project Organization
     ├── AUTHORS.md
     ├── LICENSE
     ├── README.md
-    ├── bin
+    ├── Snakefile
+    ├── setup_basf2.sh
+    ├── env
     ├── config
     ├── data
-    │   ├── external
-    │   ├── interim
-    │   ├── processed
-    │   └── raw
-    ├── docs
+    │   └── example_mc
     ├── notebooks
     ├── reports
     │   └── figures
-    └── src
-        ├── data
-        ├── external
-        ├── models
-        ├── tools
-        └── visualization
+    └── reconstruction
+   
