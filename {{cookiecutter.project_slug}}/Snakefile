@@ -58,8 +58,9 @@ rule combine_files:
 	output: OUTPUT+'/'+VERSION+'_combined_{cat}.root'
 	shell: 	"python3 scripts/agg.py {output} {input}"
 
-rule agg_all:
+rule analyse_data:
 	""" Define all final datasets
+	run `snakemake analyse_data` to create all rootfiles.
 	"""
 	input: 	expand(OUTPUT+'/'+VERSION+'_combined_{cat}.root', cat=DATASETS)
 
