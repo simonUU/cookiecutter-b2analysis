@@ -58,7 +58,7 @@ rule combine_files:
 	output: OUTPUT+'/'+VERSION+'_combined_{cat}.root'
 	shell: 	"python3 scripts/agg.py {output} {input}"
 
-rule analyse_data:
+rule process_data:
 	""" Define all final datasets
 	run `snakemake analyse_data` to create all rootfiles.
 	"""
