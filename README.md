@@ -1,5 +1,5 @@
-Reproducible Science
-====================
+Reproducible Science for Belle II analyses
+==========================================
 
 A boilerplate for reproducible and transparent science with close resemblances to the philosophy of [Cookiecutter Data Science](https://github.com/drivendata/cookiecutter-data-science): *A logical, reasonably standardized, but flexible project structure for doing and sharing data science work.*
 
@@ -32,6 +32,22 @@ Project Structure
 │   └── figures
 └── reconstruction          <- basf2 steering files
 ```
+
+Features
+--------
+
+ - Analysis scripts
+
+    Pre defined analysis scripts 
+    
+  - Snakemake automatization
+  
+    This example can run the analysis script automatically on a set of input data-sets and merges them,
+    
+  - Anaconda Envs?
+  
+  - Belle 2 Note?
+
 
 
 License
