@@ -1,5 +1,5 @@
-Reproducible Science for Belle II analyses
-==========================================
+Belle II Analyses Template / Reproducible Science
+=================================================
 
 A boilerplate for reproducible and transparent science with close resemblances to the philosophy of [Cookiecutter Data Science](https://github.com/drivendata/cookiecutter-data-science): *A logical, reasonably standardized, but flexible project structure for doing and sharing data science work.*
 
@@ -42,7 +42,8 @@ Features
     
   - Snakemake automatization
   
-    This example can run the analysis script automatically on a set of input data-sets and merges them,
+    This example can run the analysis script automatically on a set of input data-sets and merges them:
+    `snakemake process_data` will run the template analysis script on dummy data.
     
   - Anaconda Envs?
   
