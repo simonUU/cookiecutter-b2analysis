@@ -6,7 +6,7 @@ import click
 @click.argument('out_file', nargs=1)
 @click.argument('in_file', nargs=-1)
 def rec(out_file, in_file):
-    print("REC")
+    # print("Agg")
     print(in_file)
     print(out_file)
     with open(out_file, 'w') as f:

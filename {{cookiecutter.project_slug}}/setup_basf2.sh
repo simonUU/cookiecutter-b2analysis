@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RELEASE=release-04-01-01
+RELEASE={{cookiecutter.release}}
 TOOLS=/cvmfs/belle.cern.ch/tools
 
 unset PYTHONPATH

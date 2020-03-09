@@ -23,7 +23,8 @@ OUTPUT = 'data/ntuples'
 #
 # Version name for the processed files
 #
-VERSION = 'alpha'
+VERSION = '{{cookiecutter.analysis_version}}'
+STEERINGFILE = 'reconstruction/{{cookiecutter.project_slug}}_{{cookiecutter.analysis_version}}.py'
 
 ###
 ###
@@ -49,7 +50,7 @@ rule process_file:
 	input: lambda wildcards: DATASETS[wildcards.cat].replace('*','{index}')
 	output: OUTPUT+'/'+VERSION+'_{index}_{cat}.root'
 	shell:	
-		"basf2 reconstruction/alpha.py -i {input} -o {output}"
+		"basf2 " + STEERINGFILE + " -i {input} -o {output}"
 
 rule combine_files:	
 	""" Combine multiple processed files, example agg.py file used 

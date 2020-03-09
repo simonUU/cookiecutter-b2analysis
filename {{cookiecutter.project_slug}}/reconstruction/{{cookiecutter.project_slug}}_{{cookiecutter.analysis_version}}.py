@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
 """ Sample reconstruction
 
+Reconstruction of {{cookiecutter.project_name}}
+
+    {{cookiecutter.project_short_description}}
+
 This is the reconstruction code for B->K*gamma as an example.
 It should demonstrate some of the features of modular analysis.
 
 
 Authors:
-    Simon (simon.wehle@desy.de)
+    {{cookiecutter.full_name}} ({{cookiecutter.email}})
+    //Simon (simon.wehle@desy.de)
+
 
 """
 
@@ -48,9 +54,9 @@ def reconstruct(infile='default.root', outfile='output_beta.root', path=None):
     """
 
     Args:
-        infile:
-        outfile:
-        path:
+        infile: Input file name (use overwrite from basf2)
+        outfile: output file name (use overwrite from basf2)
+        path: (optional) basf2 path
 
     Returns:
         path
@@ -59,6 +65,7 @@ def reconstruct(infile='default.root', outfile='output_beta.root', path=None):
     setup()
 
    # EXAMPE RECONSTRUCTION CODE
+   # DELETE OR MODIFY FROM HERE
     just_an_example = True
     if just_an_example:
         with open(outfile, 'w') as f:
@@ -106,8 +113,8 @@ def reconstruct(infile='default.root', outfile='output_beta.root', path=None):
         #
         all_vars = get_variables()
         ma.variablesToNtuple('B0:ch1', all_vars, filename=outfile, treename="B0", path=path)
+    # TO HERE
 
-    # Print MC particles for now
     #ma.printMCParticles(path=path)
     return path
 

@@ -1,11 +1,10 @@
 {
     "project_name": "project_name",
     "full_name": "User Name",
-    "email": "@desy.com",
-    "github_username": "username",
+    "email": "user@desy.com",
+    "release": "release-04-01-01",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
     "project_short_description": "A short description of your project",
-    "release_date": "{% now 'local' %}",
-    "version": "0.1.0",
+    "analysis_version": "alpha",
     "_extensions": ["jinja2_time.TimeExtension"]
 }
