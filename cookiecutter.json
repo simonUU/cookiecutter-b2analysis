@@ -3,7 +3,7 @@
     "full_name": "User Name",
     "email": "user@desy.com",
     "release": "release-04-01-01",
-    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
+    "repo_name": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
     "project_short_description": "A short description of your project",
     "analysis_version": "alpha",
     "_extensions": ["jinja2_time.TimeExtension"]

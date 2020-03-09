@@ -24,7 +24,7 @@ OUTPUT = 'data/ntuples'
 # Version name for the processed files
 #
 VERSION = '{{cookiecutter.analysis_version}}'
-STEERINGFILE = 'reconstruction/{{cookiecutter.project_slug}}_{{cookiecutter.analysis_version}}.py'
+STEERINGFILE = 'reconstruction/{{cookiecutter.repo_name}}_{{cookiecutter.analysis_version}}.py'
 
 ###
 ###
