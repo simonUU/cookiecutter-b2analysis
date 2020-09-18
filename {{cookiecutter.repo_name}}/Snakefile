@@ -5,14 +5,16 @@
 #
 
 #
-# Define your datasets here, has to contain a `*` wildcard
+# Define your datasets here
 #
 DATASETS = { 
 	'sig' : 'data/example_mc/*.root',
-#	'uubar' : 'data/mc12/*_uubar.root',
+#	'uubar' : ['data/mc12/*_uubar.root', 2] # Always process 2 files per job
 #	'ddbar' : 'data/mc12/*_ddbar.root',
 #	'mixed' : 'data/mc12/*_mixed.root',
 #	'charged' : 'data/mc12/*_charged.root',
+# 	'data' : [['/path/to/data/GoodRuns/r*','/all/mdst/sub00/*.root'] , 100], # for each first glob, put 100 files per job
+
 }
 
 #
@@ -26,42 +28,31 @@ OUTPUT = 'data/ntuples'
 VERSION = '{{cookiecutter.analysis_version}}'
 STEERINGFILE = 'reconstruction/{{cookiecutter.repo_name}}_{{cookiecutter.analysis_version}}.py'
 
-###
-###
-###
+#
+# Helper functions
+# 
+include: "workflow/helpers.smk"
+datasets = GlobFilesToIndex(DATASETS, glob_storage=None)
+# >>> Helper END
 
-from glob import glob
 
-
-def get_indexes(wildcards):
-	""" defines the nameing and relation to the * in the categories
-	"""
-	path = DATASETS[wildcards.cat]
-	pre = path.split('*')[0]
-	pos = path.split('*')[1]
-	files = glob(path)
-	names = [f.split(pre)[1].split(pos)[0] for f in files]
-	# print("get_indexes", wildcards.cat, names)
-	return names
-
-rule process_file:
-	""" Run the reconstruction scripts, change the python executeble
-	"""
-	input: lambda wildcards: DATASETS[wildcards.cat].replace('*','{index}')
+# Basf2 processing
+#
+rule process_basf2:
+	""" Run the reconstruction scripts, change the python executeble """
+	input: lambda wildcards: datasets.get_files_by_index(wildcards.cat, int(wildcards.index))
 	output: OUTPUT+'/'+VERSION+'_{index}_{cat}.root'
-	shell:	
-		"basf2 " + STEERINGFILE + " -i {input} -o {output}"
+	run:
+		infiles = " -i ".join(i for i in input) 
+		shell("basf2 " + STEERINGFILE + " -i " +infiles + " -o {output} ")
 
-rule combine_files:	
-	""" Combine multiple processed files, example agg.py file used 
-	"""
-	input: lambda wildcards: expand(OUTPUT+'/'+VERSION+'_{ifile}_{cat}.root', cat=wildcards.cat, ifile=get_indexes(wildcards))
+rule combine_files_hadd:	
+	""" Combine multiple processed files, example agg.py file used  """
+	input: lambda wildcards: expand(OUTPUT+'/'+VERSION+'_{ifile}_{cat}.root', cat=wildcards.cat, ifile=datasets.range_nfiles(wildcards.cat))
 	output: OUTPUT+'/'+VERSION+'_combined_{cat}.root'
-	shell: 	"python3 scripts/agg.py {output} {input}"
+	shell: 	"hadd {output} {input}"
 
-rule process_data:
-	""" Define all final datasets
-	run `snakemake analyse_data` to create all rootfiles.
-	"""
-	input: 	expand(OUTPUT+'/'+VERSION+'_combined_{cat}.root', cat=DATASETS)
+rule basf2:
+	""" Define all final datasets """
+	input: 	expand(OUTPUT+'/'+VERSION+'_combined_{cat}.root', cat=list(DATASETS.keys()))
 
